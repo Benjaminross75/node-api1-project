@@ -16,6 +16,20 @@ server.get('/api/users', (req, res) => {
   })
 })
 
+server.get('/api/users/:id', (req, res) => {
+    const {id} = req.params
+    User.findById(id)
+    .then(user =>{
+       res.json(user)
+    })
+    .catch(err =>{
+      res.status(500).json({
+          message: 'User not found',
+          err: err.message,
+      })
+    })
+  })
+
 server.use('*', (req, res)=>{
    res.status(404).json({
     message: "You have an error"
