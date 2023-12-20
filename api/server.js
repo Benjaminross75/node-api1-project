@@ -88,6 +88,25 @@ server.put('/api/users/:id', async (req, res)=>{
 
 })
 
+server.delete('/api/users/:id', async (req, res)=>{
+    try{
+const deletedUser = await User.findById(req.params.id)
+if(!deletedUser){
+    res.status(404).json({
+        message: "The user with the specified ID does not exist"
+    })
+} else{
+    const deletedPerson = await User.remove(req.params.id)
+    res.json(deletedPerson)
+}
+    } catch(err){
+        res.status(500).json({
+            message: "The user could not be removed"
+        })
+    }
+
+})
+
 server.use('*', (req, res)=>{
    res.status(404).json({
     message: "You have an error"
